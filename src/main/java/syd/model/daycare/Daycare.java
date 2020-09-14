@@ -13,8 +13,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import static java.time.temporal.ChronoUnit.DAYS;
 
-public class
-Daycare {
+public class Daycare {
     //private ArrayList <DaycareEntry> entries = new ArrayList<DaycareEntry>();
     private DaycareEntryRepository daycareEntryRepository;
     private GuestRepository guestRepository;
@@ -79,35 +78,37 @@ Daycare {
         if (entry==null){
             return "Error: This Registration No does not exist.";
         }
-        if (entry.getStatus().equals("reservation booked")) {
-            Owner ownerVar = entry.getOwner();
-            Guest guestVar = entry.getGuest();
-            Host hostVar = entry.getHost();
-            LocalDate fromVar = entry.getFromDate();
-            LocalDate toVar = entry.getToDate();
-            if (entry.getFromDate().compareTo(LocalDate.now())<0){
-                entry.setStatus("brought in");
-                daycareEntryRepository.save(entry);
-                return "Hello " + ownerVar.getName() + ". You're bringing in " + guestVar.getName() +
-                        " too late. According to your reservation you will be charged the price of " +
-                        "the full duration. Thanks for your understanding. The status was " +
-                        "set to \'brought in\'. This reservation is valid until " + DaycareEntry.dateToString(toVar) + ".";
-            } else if (entry.getFromDate().equals(LocalDate.now())) {
-                entry.setStatus("brought in");
-                daycareEntryRepository.save(entry);
-                return ("Hello " + ownerVar.getName() + ". Thanks for bringing in " +
-                        guestVar.getName() + ". The status was set to \'brought in\'. This reservation is valid until "
-                        + DaycareEntry.dateToString(toVar) + ". ");
-            } else {
-                return "Sorry. You can't bring in " + guestVar.getName() + " yet. Please bring them in on " +
-                        fromVar + ". Thank you.";
-            }
-        } else if (entry.getStatus().equals("brought in") || entry.getStatus().equals("picked up")){
-            return "This guest has already been brought in.";
-        } else if (entry.getStatus().equals("cancelled")){
-            return "This reservation was cancelled and thus the guest can't be brought in.";
-        } else {
-            return "Error: Please check the status of this reservation.";
+        switch (entry.getStatus()) {
+            case "reservation booked":
+                Owner ownerVar = entry.getOwner();
+                Guest guestVar = entry.getGuest();
+                Host hostVar = entry.getHost();
+                LocalDate fromVar = entry.getFromDate();
+                LocalDate toVar = entry.getToDate();
+                if (entry.getFromDate().compareTo(LocalDate.now()) < 0) {
+                    entry.setStatus("brought in");
+                    daycareEntryRepository.save(entry);
+                    return "Hello " + ownerVar.getName() + ". You're bringing in " + guestVar.getName() +
+                            " too late. According to your reservation you will be charged the price of " +
+                            "the full duration. Thanks for your understanding. The status was " +
+                            "set to \'brought in\'. This reservation is valid until " + DaycareEntry.dateToString(toVar) + ".";
+                } else if (entry.getFromDate().equals(LocalDate.now())) {
+                    entry.setStatus("brought in");
+                    daycareEntryRepository.save(entry);
+                    return ("Hello " + ownerVar.getName() + ". Thanks for bringing in " +
+                            guestVar.getName() + ". The status was set to \'brought in\'. This reservation is valid until "
+                            + DaycareEntry.dateToString(toVar) + ". ");
+                } else {
+                    return "Sorry. You can't bring in " + guestVar.getName() + " yet. Please bring them in on " +
+                            fromVar + ". Thank you.";
+                }
+            case "brought in":
+            case "picked up":
+                return "This guest has already been brought in.";
+            case "cancelled":
+                return "This reservation was cancelled and thus the guest can't be brought in.";
+            default:
+                return "Error: Please check the status of this reservation.";
         }
     }
 
