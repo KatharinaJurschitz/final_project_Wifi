@@ -117,35 +117,36 @@ public class Daycare {
         if (entry==null){
             return "Error: This Registration No does not exist.";
         }
-        if (entry.getStatus().equals("reservation booked")) {
-            return "This guest can't be picked up because they haven't been brought in yet.";
-        } else if (entry.getStatus().equals("picked up")) {
-            return "This guest has already been picked up.";
-        }   else if (entry.getStatus().equals("cancelled")){
-            return "This reservation was cancelled and thus the guest can't be picked up.";
-        }   else if (entry.getStatus().equals("brought in")){
-            Owner ownerVar = entry.getOwner();
-            Guest guestVar = entry.getGuest();
-            Host hostVar = entry.getHost();
-            LocalDate fromVar = entry.getFromDate();
-            LocalDate toVar = entry.getToDate();
-            entry.setStatus("picked up");
-            daycareEntryRepository.save(entry);
-            if (entry.getToDate().compareTo(LocalDate.now())>0){
-                return "Hello " + ownerVar.getName() + ". You're picking up " + guestVar.getName() +
-                        " too early. According to your reservation you will be charged the price of " +
-                        "the full duration. Thanks for your understanding. The status was set to \'picked up\'.";
-            } else if (entry.getToDate().equals(LocalDate.now())){
-                return ("Hello " + ownerVar.getName() + ". Your " + guestVar.getType() + " " + guestVar.getName()
-                        + " was here from " + DaycareEntry.dateToString(fromVar)+ " to " + DaycareEntry.dateToString(toVar)+
-                        ". Thanks for your trust. The status was set to \'picked up\'. ");
-            } else {
-                return "Hello " + ownerVar.getName() + ". You're picking up " + guestVar.getName() +
-                        " too late. According to your reservation you will be charged the additional days. Thanks " +
-                        "for your understanding. The status was set to \'picked up\'.";
-            }
-        } else {
-            return "Error: Please check the status of this reservation.";
+        switch (entry.getStatus()) {
+            case "reservation booked":
+                return "This guest can't be picked up because they haven't been brought in yet.";
+            case "picked up":
+                return "This guest has already been picked up.";
+            case "cancelled":
+                return "This reservation was cancelled and thus the guest can't be picked up.";
+            case "brought in":
+                Owner ownerVar = entry.getOwner();
+                Guest guestVar = entry.getGuest();
+                Host hostVar = entry.getHost();
+                LocalDate fromVar = entry.getFromDate();
+                LocalDate toVar = entry.getToDate();
+                entry.setStatus("picked up");
+                daycareEntryRepository.save(entry);
+                if (entry.getToDate().compareTo(LocalDate.now()) > 0) {
+                    return "Hello " + ownerVar.getName() + ". You're picking up " + guestVar.getName() +
+                            " too early. According to your reservation you will be charged the price of " +
+                            "the full duration. Thanks for your understanding. The status was set to \'picked up\'.";
+                } else if (entry.getToDate().equals(LocalDate.now())) {
+                    return ("Hello " + ownerVar.getName() + ". Your " + guestVar.getType() + " " + guestVar.getName()
+                            + " was here from " + DaycareEntry.dateToString(fromVar) + " to " + DaycareEntry.dateToString(toVar) +
+                            ". Thanks for your trust. The status was set to \'picked up\'. ");
+                } else {
+                    return "Hello " + ownerVar.getName() + ". You're picking up " + guestVar.getName() +
+                            " too late. According to your reservation you will be charged the additional days. Thanks " +
+                            "for your understanding. The status was set to \'picked up\'.";
+                }
+            default:
+                return "Error: Please check the status of this reservation.";
         }
     }
 
