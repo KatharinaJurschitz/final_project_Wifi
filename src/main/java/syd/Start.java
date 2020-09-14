@@ -23,8 +23,6 @@ import static java.lang.String.valueOf;
 
 @SpringBootApplication(scanBasePackages={"syd.model.guest", "syd.model.person"})
 public class Start {
-    private static final Logger log = LoggerFactory.getLogger(Start.class);
-
     public static void main(String[] args) {
         new SpringApplicationBuilder(Start.class).headless(false).run(args);
     }
