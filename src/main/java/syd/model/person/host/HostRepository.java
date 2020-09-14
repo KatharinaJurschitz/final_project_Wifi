@@ -7,3 +7,4 @@ public interface HostRepository extends CrudRepository <Host, Long> {
     public abstract List<Host> findByName(String name);
     public abstract Host findByid(long id);
 }
+

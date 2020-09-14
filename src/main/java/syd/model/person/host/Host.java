@@ -23,18 +23,21 @@ public class Host extends Person {
     @OneToMany (fetch = FetchType.EAGER)
     private Set<DaycareEntry> daycareEntries;
 
-//    public Host(String pName, double pPricePerDay) throws Exception{
-//        super(pName);
-//        this.pricePerDay = pPricePerDay;
-//    }
-
-    public Host(String pName, double pPricePerDay, String pAddress, String pTelephone) throws Exception{
+    public Host(String pName, double pPricePerDay, String pAddress,
+                String pTelephone) throws Exception{
         super(pName, pAddress, pTelephone);
         this.pricePerDay = pPricePerDay;
     }
 
-    public double getPricePerDay() {
-        return pricePerDay;
+    @Override
+    public String toString() {
+        return "[ID " + this.id + "] Name: " + this.name + ", Address: " +
+                this.address + ", Telephone:" + this.telephone +
+                ", Price per Day: " + this.pricePerDay;
+    }
+
+    public String shortInfo(){
+        return this.name + ", Price per Day: " + this.pricePerDay;
     }
 
     public int getFreeCapacity(LocalDate pFromDate, LocalDate pToDate, String pGuestType){
@@ -58,26 +61,19 @@ public class Host extends Person {
             break;
             default: checkCapacity = 0;
         }
-        checkCapacity = (int) (checkCapacity - this.daycareEntries.stream().filter(new Predicate<DaycareEntry>() {
+        checkCapacity = (int) (checkCapacity - this.daycareEntries.stream().
+                filter(new Predicate<DaycareEntry>() {
                     @Override
                     public boolean test(DaycareEntry daycareEntry) {
-                        return daycareEntry.getGuest().getType().equals(pGuestType)&&daycareEntry.getFromDate().compareTo(pToDate)<=0&&daycareEntry.getToDate().compareTo(pFromDate)>=0;
+                        return daycareEntry.getGuest().getType().
+                                equals(pGuestType)&&daycareEntry.getFromDate().
+                                compareTo(pToDate)<=0&&daycareEntry.
+                                getToDate().
+                                compareTo(pFromDate)>=0;
                     }
                 }).count());
         return checkCapacity;
     }
-
-    @Override
-    public String toString() {
-        return "[ID " + this.id + "] Name: " + this.name + ", Address: " + this.address +
-                ", Telephone:" + this.telephone + ", Price per Day: " + this.pricePerDay;
-    }
-
-    public String shortInfo(){
-        return this.name + ", Price per Day: " + this.pricePerDay;
-    }
-
-    public Host(){} // JPA verlangt für Entity einen Leer-Cstr
 
     public int getNumberOfCatsAllowed() {
         return numberOfCatsAllowed;
@@ -103,6 +99,10 @@ public class Host extends Person {
         return numberOfRatMouseAllowed;
     }
 
+    public double getPricePerDay() {
+        return pricePerDay;
+    }
+
     public int getNumberOfSnakeAllowed() {
         return numberOfSnakeAllowed;
     }
@@ -110,4 +110,11 @@ public class Host extends Person {
     public int getNumberOfBirdAllowed() {
         return numberOfBirdAllowed;
     }
+
+    public Host(){} // JPA verlangt für Entity einen Leer-Cstr
+
+    //    public Host(String pName, double pPricePerDay) throws Exception{
+//        super(pName);
+//        this.pricePerDay = pPricePerDay;
+//    }
 }

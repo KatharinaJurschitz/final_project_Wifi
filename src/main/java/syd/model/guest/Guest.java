@@ -11,9 +11,9 @@ public class Guest {
     protected String type;
     protected String careoption;
     @OneToMany
-    private Set<DaycareEntry> daycareEntries; //muss bleiben, damit Verknüpfung mit anderen Tabellen besteht
+    private Set<DaycareEntry> daycareEntries;            //für Verknüpfung mit anderen Tabellen
     @ManyToOne
-    private Owner owner; //muss bleiben, damit Verknüpfung mit anderen Tabellen besteht
+    private Owner owner;                                 //für Verknüpfung mit anderen Tabellen
     @Id
     @GeneratedValue (strategy = GenerationType.AUTO)
     protected long id;

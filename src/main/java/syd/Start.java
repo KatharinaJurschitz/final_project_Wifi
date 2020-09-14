@@ -21,14 +21,14 @@ import java.time.LocalDate;
 
 import static java.lang.String.valueOf;
 
-@SpringBootApplication(scanBasePackages={"syd.model.guest", "syd.model.person"})
+@SpringBootApplication
 public class Start {
     public static void main(String[] args) {
         new SpringApplicationBuilder(Start.class).headless(false).run(args);
     }
 
     @Bean
-    public CommandLineRunner test (GuestRepository guestRepository, OwnerRepository ownerRepository, HostRepository hostRepository, DaycareEntryRepository daycareEntryRepository){
+    public CommandLineRunner PetBnB (GuestRepository guestRepository, OwnerRepository ownerRepository, HostRepository hostRepository, DaycareEntryRepository daycareEntryRepository){
         return new CommandLineRunner() {
             @Override
             public void run(String... args) throws Exception {

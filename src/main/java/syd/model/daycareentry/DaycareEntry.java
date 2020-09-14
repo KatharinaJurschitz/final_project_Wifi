@@ -42,10 +42,6 @@ public class DaycareEntry {
                 "\n    Dates: " + dateToString(fromDate) + " - " + dateToString(toDate)  + "\n    Status: " + this.status + "\n";
     }
 
-//    public String getShortInfo(){
-//        return "RegNo: " + this.registrationNo + " | Guest: " + this.guest.getName() + " | Owner: " + this.owner.getName();
-//    }
-
     public static String dateToString(LocalDate pDate){
         return pDate.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG));
     }
@@ -57,10 +53,6 @@ public class DaycareEntry {
     public void setRegistrationNo(String registrationNo) {
         this.registrationNo = registrationNo;
     }
-
-//    public void setGuest(Guest guest) {
-//        this.guest = guest;
-//    }
 
     public Owner getOwner() {
         return owner;
@@ -86,10 +78,6 @@ public class DaycareEntry {
         return registrationNo;
     }
 
-//    public static int getCurrentNoGuests() {
-//        return currentNoGuests;
-//    }
-
     public Host getHost() {
         return host;
     }
@@ -97,4 +85,16 @@ public class DaycareEntry {
     public long getId() {
         return id;
     }
+
+    //    public void setGuest(Guest guest) {
+//        this.guest = guest;
+//    }
+
+    //    public static int getCurrentNoGuests() {
+//        return currentNoGuests;
+//    }
+
+    //    public String getShortInfo(){
+//        return "RegNo: " + this.registrationNo + " | Guest: " + this.guest.getName() + " | Owner: " + this.owner.getName();
+//    }
 }

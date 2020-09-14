@@ -13,3 +13,4 @@ public interface DaycareEntryRepository extends CrudRepository <DaycareEntry, Lo
     public abstract List<DaycareEntry> findByGuest(Guest guest);
     public abstract List<DaycareEntry> findByStatus(String status);
 }
+

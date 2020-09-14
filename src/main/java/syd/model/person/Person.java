@@ -12,15 +12,6 @@ public class Person {
     protected String address;
     protected String telephone;
 
-//    public Person(String pName) throws Exception{
-//        if (pName.isEmpty()){
-//            throw new Exception("Please fill all mandatory fields.");
-//        }
-//        this.name = pName;
-//    }
-
-    protected Person() {} // JPA verlangt für Entity einen Leer-Cstr
-
     public Person(String pName, String pAddress, String pTelephone) throws Exception{
         if (pName.isEmpty()){
             throw new Exception("Please fill all mandatory fields.");
@@ -54,6 +45,8 @@ public class Person {
         this.telephone = telephone;
     }
 
+    protected Person() {} // JPA verlangt für Entity einen Leer-Cstr
+
     @Override
     public String toString() {
         return "Person{ id=" + id + ", name='" + name + '\'' + ", address='" + address + '\'' +
@@ -62,5 +55,12 @@ public class Person {
 
 //    public String personInfo(){
 //        return "Name: " + this.name + "\nAddress: " + this.address + "\nTelephone: " + this.telephone;
+//    }
+
+    //    public Person(String pName) throws Exception{
+//        if (pName.isEmpty()){
+//            throw new Exception("Please fill all mandatory fields.");
+//        }
+//        this.name = pName;
 //    }
 }
