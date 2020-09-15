@@ -502,8 +502,17 @@ public class Rahmen extends JFrame {
                 String suchergeb = (mdGuestList.getSelectedItem());
                 suchergeb = suchergeb.substring(suchergeb.indexOf("[ID ")+4,suchergeb.indexOf(']'));
                 Owner pOwner = ownerRepository.findByUsername(usernameTextfield.getText());
+                //remove all reservations for this particular guest
+                java.util.List <DaycareEntry> entryList = daycareEntryRepository.findByGuest(pOwner.getGuestById(Long.valueOf(suchergeb)));
+                entryList.forEach(new Consumer<DaycareEntry>() {
+                    @Override
+                    public void accept(DaycareEntry daycareEntry) {
+                        daycareEntryRepository.delete(daycareEntry);
+                    }
+                });
                 pOwner.removeGuestById(Long.valueOf(suchergeb));
                 ownerRepository.save(pOwner);
+
                 guestRepository.deleteById(Long.valueOf(suchergeb));
                 mdGuestList.removeAll();
                 pOwner.getGuests().forEach(new Consumer<Guest>() {
@@ -784,7 +793,8 @@ public class Rahmen extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 JFrame confirmBringInFrame = new JFrame();
                 JOptionPane confirmBringInLabel = new JOptionPane();
-                confirmBringInLabel.showMessageDialog(confirmBringInFrame, daycare.bringIn(Long.valueOf(manageRegNoTextfield.getText())));
+                confirmBringInLabel.showMessageDialog(confirmBringInFrame,
+                        daycare.bringIn(Long.valueOf(manageRegNoTextfield.getText())));
             }
         });
 
@@ -802,7 +812,7 @@ public class Rahmen extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 JFrame confirmCancelFrame = new JFrame();
                 JOptionPane confirmCancelLabel = new JOptionPane();
-                int cancelReply = confirmCancelLabel.showConfirmDialog(confirmCancelFrame, "Are " +
+                int cancelReply = confirmCancelLabel.showConfirmDialog(confirmCancelFrame,"Are " +
                         "you sure you want to cancel this reservation?", "Are you sure?", JOptionPane.YES_NO_OPTION);
                 if (cancelReply== JOptionPane.YES_OPTION){
                     JFrame resCancelledFrame = new JFrame();
@@ -905,7 +915,8 @@ public class Rahmen extends JFrame {
         pOwner.getGuests().forEach(new Consumer<Guest>() {
             @Override
             public void accept(Guest guest) {
-                chooseGuest.add("[" + guest.getType() + "] " + guest.getName());
+                chooseGuest.add("[" + guest.getType() +
+                        "] " + guest.getName());
             }
         });
         ComboBoxModel model = new DefaultComboBoxModel(chooseGuest.toArray());

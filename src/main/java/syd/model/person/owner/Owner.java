@@ -6,6 +6,7 @@ import syd.model.person.Person;
 import javax.persistence.*;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 @Entity
@@ -47,6 +48,20 @@ public class Owner extends Person {
          } else {
              return null;
          }
+    }
+
+    public Guest getGuestById (Long pId){
+        Optional <Guest> pGuest = getGuests().stream().filter(new Predicate<Guest>() {
+            @Override
+            public boolean test(Guest guest) {
+                return guest.getId()==pId;
+            }
+        }).findFirst();
+        if (pGuest.isPresent()){
+            return pGuest.get();
+        } else {
+            return null;
+        }
     }
 
 //    public Owner(String pUsername, String pName) throws Exception{
